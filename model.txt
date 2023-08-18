@@ -1,0 +1,75 @@
+Trong MongoDB, không cần thiết phải tuân theo mô hình bảng quan hệ truyền thống. Thay vào đó, chúng ta có thể sử dụng mô hình tài liệu để tổ chức dữ liệu. Dưới đây là một mô phỏng thiết kế cơ bản của các tài liệu cho một website e-commerce trong MongoDB:
+
+Collection: Products
+{
+_id: ObjectId (ID duy nhất của sản phẩm),
+name: string (tên sản phẩm),
+description: string (mô tả sản phẩm),
+sku: string (SKU),
+price: number (giá sản phẩm),
+category: string (thể loại sản phẩm),
+brand: string (nhãn hiệu sản phẩm),
+stockQuantity: number (số lượng hàng tồn kho)
+}
+
+Collection: Customers
+{
+_id: ObjectId (ID duy nhất của khách hàng),
+firstName: string (tên khách hàng),
+lastName: string (họ khách hàng),
+email: string (email của khách hàng),
+password: string (mật khẩu được mã hóa của khách hàng),
+address: string (địa chỉ của khách hàng),
+phoneNumber: string (số điện thoại của khách hàng)
+}
+
+Collection: Orders
+{
+_id: ObjectId (ID duy nhất của đơn hàng),
+customer: {
+customerId: ObjectId (ID của khách hàng),
+firstName: string (tên khách hàng),
+lastName: string (họ khách hàng)
+},
+orderDate: Date (ngày đặt hàng),
+totalAmount: number (tổng giá trị đơn hàng),
+paymentStatus: string (trạng thái thanh toán),
+items: [
+{
+productId: ObjectId (ID của sản phẩm),
+name: string (tên sản phẩm),
+quantity: number (số lượng sản phẩm),
+unitPrice: number (giá đơn vị)
+},
+...
+]
+}
+
+Collection: Payments
+{
+_id: ObjectId (ID duy nhất của thanh toán),
+orderId: ObjectId (ID của đơn hàng),
+paymentMethod: string (phương thức thanh toán),
+transactionId: string (ID giao dịch),
+amount: number (số tiền thanh toán),
+paymentDate: Date (ngày thanh toán)
+}
+
+Collection: Shipping
+{
+_id: ObjectId (ID duy nhất của vận chuyển),
+orderId: ObjectId (ID của đơn hàng),
+shippingAddress: string (địa chỉ vận chuyển),
+shippingDate: Date (ngày vận chuyển),
+deliveryStatus: string (trạng thái giao hàng)
+}
+
+Collection: Reviews
+{
+_id: ObjectId (ID duy nhất của đánh giá),
+productId: ObjectId (ID của sản phẩm),
+customerId: ObjectId (ID của khách hàng),
+rating: number (điểm đánh giá),
+reviewContent: string (nội dung đánh giá),
+reviewDate: Date (ngày đánh giá)
+}
